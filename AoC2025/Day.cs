@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AoC2025.Days;
+namespace AoC2025;
 
 public abstract class Day
 {
@@ -20,6 +20,19 @@ public abstract class Day
         sw.Stop();
 
         Console.WriteLine($"Solved {name} in {sw.ElapsedMilliseconds,4} ms. Result:\t{result}");
+    }
+
+    protected IEnumerable<string> GetInputLines()
+    {
+        var fileName = $"{GetType().Name}.txt";
+        var filePath = Path.Combine(AppContext.BaseDirectory, "Inputs", fileName);
+
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException($"Input file not found. Expected at: {filePath}");
+        }
+
+        return File.ReadAllLines(filePath);
     }
 
     public abstract object Task1();
