@@ -22,7 +22,7 @@ public abstract class Day
         Console.WriteLine($"Solved {name} in {sw.ElapsedMilliseconds,4} ms. Result:\t{result}");
     }
 
-    protected IEnumerable<string> GetInputLines()
+    private string GetInputFilePath()
     {
         var fileName = $"{GetType().Name}.txt";
         var filePath = Path.Combine(AppContext.BaseDirectory, "Inputs", fileName);
@@ -32,7 +32,18 @@ public abstract class Day
             throw new FileNotFoundException($"Input file not found. Expected at: {filePath}");
         }
 
-        return File.ReadAllLines(filePath);
+        return filePath;
+    }
+
+    protected IEnumerable<string> GetInputLines()
+    {
+        return File.ReadAllLines(GetInputFilePath());
+    }
+
+    protected IEnumerable<string> GetInputSeparatedBy(char separator)
+    {
+        var content = File.ReadAllText(GetInputFilePath());
+        return content.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 
     public abstract object Task1();
