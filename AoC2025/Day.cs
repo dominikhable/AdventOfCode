@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 
 namespace AoC2025;
 
@@ -44,6 +45,26 @@ public abstract class Day
     {
         var content = File.ReadAllText(GetInputFilePath());
         return content.Split(separator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
+
+    protected HashSet<Point> GetInputPoints(char c)
+    {
+        var lines = GetInputLines().ToList();
+
+        var points = new HashSet<Point>();
+
+        for (int y = 0; y < lines.Count; y++)
+        {
+            for (int x = 0; x < lines[0].Length; x++)
+            {
+                if (lines[y][x] == c)
+                {
+                    points.Add(new Point(x, y));
+                }
+            }
+        }
+
+        return points;
     }
 
     public abstract object Task1();
